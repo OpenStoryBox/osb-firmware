@@ -56,7 +56,7 @@ set(MKRZERO_SOURCES
 )
 list(TRANSFORM MKRZERO_SOURCES PREPEND ${CMAKE_CURRENT_LIST_DIR}/ArduinoCore-samd/variants/mkrzero/)
 
-add_library(arduino ${ARDUINO_SOURCES} ${MKRZERO_SOURCES})
+add_library(arduino ${ARDUINO_SOURCES} ${MKRZERO_SOURCES} ${ARDUINO_SOURCES_USB} ${ARDUINO_SOURCES_LIBS})
 
 target_include_directories(arduino PUBLIC ${ARDUINO_INCLUDES})
 

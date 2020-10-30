@@ -154,6 +154,8 @@ endif(WITH_MCU)
 
 set(ARDUINO_FLAGS "-DF_CPU=48000000L -DARDUINO=10813 -DARDUINO_SAMD_MKRZERO -DARDUINO_ARCH_SAMD -DUSE_ARDUINO_MKR_PIN_LAYOUT -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804f")
 
+add_definitions(-DUSB_VID=0x2341 -DUSB_PID=0x804f -DUSBCON "-DUSB_MANUFACTURER=\"Arduino LLC\"" "-DUSB_PRODUCT=\"Arduino MKRZero\"" )
+
 set(COMMON_FLAGS "${ARDUINO_FLAGS} -mcpu=${ARM_MCU} -mthumb -Wall -Wextra -Wno-expansion-to-defined -ffunction-sections -fdata-sections --param max-inline-insns-single=500 -MMD")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} -std=gnu++11  -fno-threadsafe-statics -fno-rtti -fno-exceptions -D__SAMD21G18A__")
 set(CMAKE_C_FLAGS "${COMMON_FLAGS}  -std=gnu11 -D__SAMD21G18A__")

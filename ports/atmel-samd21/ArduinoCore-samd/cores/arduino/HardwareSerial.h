@@ -67,8 +67,8 @@
 class HardwareSerial : public Stream
 {
   public:
-      HardwareSerial() {};
-      virtual ~HardwareSerial() {};
+    HardwareSerial();
+    virtual ~HardwareSerial();
 
     virtual void begin(unsigned long);
     virtual void begin(unsigned long baudrate, uint16_t config);

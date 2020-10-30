@@ -167,6 +167,18 @@ extern "C" {
 
 const void* g_apTCInstances[TCC_INST_NUM + TC_INST_NUM]={ TCC0, TCC1, TCC2, TC3, TC4, TC5 };
 
+#include "HardwareSerial.h"
+
+HardwareSerial::HardwareSerial()
+{
+
+}
+
+HardwareSerial::~HardwareSerial()
+{
+
+}
+
 // Multi-serial objects instantiation
 SERCOM sercom0(SERCOM0);
 SERCOM sercom1(SERCOM1);
@@ -175,11 +187,11 @@ SERCOM sercom3(SERCOM3);
 SERCOM sercom4(SERCOM4);
 SERCOM sercom5(SERCOM5);
 
-// Serial1
+//// Serial1
 //Uart Serial1(&sercom5, PIN_SERIAL1_RX, PIN_SERIAL1_TX, PAD_SERIAL1_RX, PAD_SERIAL1_TX);
 
-void SERCOM5_Handler()
-{
-//  Serial1.IrqHandler();
-}
+//void SERCOM5_Handler()
+//{
+//      Serial1.IrqHandler();
+//}
 

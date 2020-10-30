@@ -125,7 +125,7 @@ endif(CMAKE_BUILD_TYPE MATCHES Debug)
 # building library and application in their subdirectories
 ##########################################################################
 add_subdirectory(ports/atmel-samd21)
-#add_subdirectory(lib)
+add_subdirectory(lib)
 
 
 set(GCC_ARM_LINKER_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/ports/atmel-samd21/ArduinoCore-samd/variants/mkrzero/linker_scripts/gcc/flash_without_bootloader.ld)
@@ -137,7 +137,7 @@ add_executable(
     src/loop.cpp
 )
 
-target_link_libraries(Osb arduino) # osb-lib)
+target_link_libraries(Osb arduino osb-lib)
 
 add_arm_executable(Osb)
 

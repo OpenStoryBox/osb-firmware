@@ -6,6 +6,9 @@ set(OSB_LIB_INCLUDES
     ${CMAKE_CURRENT_LIST_DIR}/SdFat/src/SdCard
     ${CMAKE_CURRENT_LIST_DIR}/SdFat/src/FsLib
     ${CMAKE_CURRENT_LIST_DIR}/SdFat/src/FatLib
+    ${CMAKE_CURRENT_LIST_DIR}/SdFat/src/ExFatLib
+    ${CMAKE_CURRENT_LIST_DIR}/SdFat/src/iostream
+    ${CMAKE_CURRENT_LIST_DIR}/SdFat/src/SpiDriver
 )
 
 
@@ -15,11 +18,20 @@ set(OSB_LIB_INCLUDES
 set(SDFAT_SOURCES
     MinimumSerial.cpp
     FreeStack.cpp
+
+    common/FsDateTime.cpp
+    common/FmtNumber.cpp
+    common/FsStructs.cpp
+    common/PrintBasic.cpp
+    common/SysCallBareUno.cpp
+
     SdCard/SdCardInfo.cpp
     SdCard/SdSpiCard.cpp
+
     FsLib/FsNew.cpp
     FsLib/FsFile.cpp
     FsLib/FsVolume.cpp
+
     FatLib/FatVolume.cpp
     FatLib/FatPartition.cpp
     FatLib/FatFormatter.cpp
@@ -28,6 +40,22 @@ set(SDFAT_SOURCES
     FatLib/FatFilePrint.cpp
     FatLib/FatFileLFN.cpp
     FatLib/FatDbg.cpp
+
+    ExFatLib/ExFatDbg.cpp
+    ExFatLib/ExFatFile.cpp
+    ExFatLib/ExFatFilePrint.cpp
+    ExFatLib/ExFatFileWrite.cpp
+    ExFatLib/ExFatFormatter.cpp
+    ExFatLib/ExFatPartition.cpp
+    ExFatLib/ExFatVolume.cpp
+    ExFatLib/upcase.cpp
+
+    SpiDriver/SdSpiChipSelect.cpp
+
+    iostream/istream.cpp
+    iostream/ostream.cpp
+    iostream/StdioStream.cpp
+    iostream/StreamBaseClass.cpp
 )
 
 list(TRANSFORM SDFAT_SOURCES PREPEND ${CMAKE_CURRENT_LIST_DIR}/SdFat/src/)
