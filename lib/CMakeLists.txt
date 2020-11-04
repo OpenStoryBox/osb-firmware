@@ -9,8 +9,19 @@ set(OSB_LIB_INCLUDES
     ${CMAKE_CURRENT_LIST_DIR}/SdFat/src/ExFatLib
     ${CMAKE_CURRENT_LIST_DIR}/SdFat/src/iostream
     ${CMAKE_CURRENT_LIST_DIR}/SdFat/src/SpiDriver
+    ${CMAKE_CURRENT_LIST_DIR}/ArduinoSound/src
 )
 
+# ------------------------------------------------------------------------
+# Librairie AUDIO I2S
+# ------------------------------------------------------------------------
+set(SOUND_SOURCES
+    AudioOutI2S.cpp
+    AudioOut.cpp
+    AudioIn.cpp
+    SDWaveFile.cpp
+)
+list(TRANSFORM SOUND_SOURCES PREPEND ${CMAKE_CURRENT_LIST_DIR}/ArduinoSound/src/)
 
 # ------------------------------------------------------------------------
 # Librairie SD
@@ -61,7 +72,7 @@ set(SDFAT_SOURCES
 list(TRANSFORM SDFAT_SOURCES PREPEND ${CMAKE_CURRENT_LIST_DIR}/SdFat/src/)
 
 
-add_library(osb-lib ${SDFAT_SOURCES})
+add_library(osb-lib ${SDFAT_SOURCES} ${SOUND_SOURCES})
 
 target_link_libraries(osb-lib arduino)
 target_include_directories(osb-lib PUBLIC ${OSB_LIB_INCLUDES})

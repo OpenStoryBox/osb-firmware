@@ -1,3 +1,134 @@
+/*
+ This reads a wave file from an SD card and plays it using the I2S interface to
+ a MAX08357 I2S Amp Breakout board.
+
+Circuit:
+    * Arduino/Genuino Zero, MKRZero or MKR1000 board
+            * SD breakout or shield connected
+                   * MAX08357:
+    * GND connected GND
+        * VIN connected 5V
+    * LRC connected to pin 0 (Zero) or pin 3 (MKR1000, MKRZero)
+               * BCLK connected to pin 1 (Zero) or pin 2 (MKR1000, MKRZero)
+               * DIN connected to pin 9 (Zero) or pin A6 (MKR1000, MKRZero)
+
+               created 15 November 2016
+               by Sandeep Mistry
+                   */
+
+#include <SdFat.h>
+#include <ArduinoSound.h>
+
+// filename of wave file to play
+const char filename[] = "castemere_mono.wav";
+
+// SD_FAT_TYPE = 0 for SdFat/File as defined in SdFatConfig.h,
+// 1 for FAT16/FAT32, 2 for exFAT, 3 for FAT16/FAT32 and exFAT.
+#define SD_FAT_TYPE 2
+//
+// Set DISABLE_CHIP_SELECT to disable a second SPI device.
+// For example, with the Ethernet shield, set DISABLE_CHIP_SELECT
+// to 10 to disable the Ethernet controller.
+const int8_t DISABLE_CHIP_SELECT = -1;
+//
+// Test with reduced SPI speed for breadboards.  SD_SCK_MHZ(4) will select
+// the highest speed supported by the board that is not over 4 MHz.
+// Change SPI_SPEED to SD_SCK_MHZ(50) for best performance.
+#define SPI_SPEED SD_SCK_MHZ(24)
+//------------------------------------------------------------------------------
+
+SdFat sd;
+// SD card chip select
+int chipSelect = 28;
+
+// variable representing the Wave File
+SDWaveFile waveFile(sd, filename);
+
+void setup() {
+    // Open serial communications and wait for port to open:
+    Serial.begin(9600);
+    while (!Serial) {
+        ; // wait for serial port to connect. Needed for native USB port only
+    }
+
+    if (!sd.begin(chipSelect, SPI_SPEED)) {
+        if (sd.card()->errorCode()) {
+            Serial.println("SD initialization failed.");
+//            cout << F(
+//                "\nSD initialization failed.\n"
+//                "Do not reformat the card!\n"
+//                "Is the card correctly inserted?\n"
+//                "Is chipSelect set to the correct value?\n"
+//                "Does another SPI device need to be disabled?\n"
+//                "Is there a wiring/soldering problem?\n");
+//            cout << F("\nerrorCode: ") << hex << showbase;
+//            cout << int(sd.card()->errorCode());
+//            cout << F(", errorData: ") << int(sd.card()->errorData());
+//            cout << dec << noshowbase << endl;
+            return;
+        }
+        Serial.println("Card successfully initialized.");
+        if (sd.vol()->fatType() == 0) {
+            Serial.println("Can't find a valid FAT16/FAT32 partition.");
+            return;
+        }
+        Serial.println("Can't determine error type.");
+        return;
+    }
+
+    // check if the WaveFile is valid
+    if (!waveFile) {
+        Serial.println("wave file is invalid!");
+        while (1); // do nothing
+    }
+
+    // print out some info. about the wave file
+    Serial.print("Bits per sample = ");
+    Serial.println(waveFile.bitsPerSample());
+
+    long channels = waveFile.channels();
+    Serial.print("Channels = ");
+    Serial.println(channels);
+
+    long sampleRate = waveFile.sampleRate();
+    Serial.print("Sample rate = ");
+    Serial.print(sampleRate);
+    Serial.println(" Hz");
+
+    long duration = waveFile.duration();
+    Serial.print("Duration = ");
+    Serial.print(duration);
+    Serial.println(" seconds");
+
+    // adjust the playback volume
+    AudioOutI2S.volume(5);
+
+    // check if the I2S output can play the wave file
+    if (!AudioOutI2S.canPlay(waveFile)) {
+        Serial.println("unable to play wave file using I2S!");
+        while (1); // do nothing
+    }
+
+    // start playback
+    Serial.println("starting playback");
+    AudioOutI2S.play(waveFile);
+}
+
+void loop() {
+    // check if playback is still going on
+    if (!AudioOutI2S.isPlaying()) {
+        // playback has stopped
+
+        Serial.println("playback stopped");
+        while (1); // do nothing
+    }
+}
+
+
+/**
+ *
+
+// ============================================       SD EXAMPLE
 
 // Quick hardware test for SPI card access.
 //
@@ -98,19 +229,19 @@ void loop() {
     }
     firstTry = false;
 
-    /*
-    cout << F("\nEnter the chip select pin number: ");
-    while (!Serial.available()) {
-        SysCall::yield();
-    }
-    cin.readline();
-    if (cin >> chipSelect) {
-        cout << chipSelect << endl;
-    } else {
-        cout << F("\nInvalid pin number\n");
-        return;
-    }
-*/
+
+//    cout << F("\nEnter the chip select pin number: ");
+//    while (!Serial.available()) {
+//        SysCall::yield();
+//    }
+//    cin.readline();
+//    if (cin >> chipSelect) {
+//        cout << chipSelect << endl;
+//    } else {
+//        cout << F("\nInvalid pin number\n");
+//        return;
+//    }
+
 
     if (DISABLE_CHIP_SELECT < 0) {
         cout << F(
@@ -184,7 +315,7 @@ void loop() {
     }
 }
 
-
+*/
 
 
 

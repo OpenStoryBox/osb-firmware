@@ -124,9 +124,10 @@ endif(CMAKE_BUILD_TYPE MATCHES Debug)
 ##########################################################################
 # building library and application in their subdirectories
 ##########################################################################
+add_definitions(-DSDFAT_FILE_TYPE=2)
+
 add_subdirectory(ports/atmel-samd21)
 add_subdirectory(lib)
-
 
 set(GCC_ARM_LINKER_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/ports/atmel-samd21/ArduinoCore-samd/variants/mkrzero/linker_scripts/gcc/flash_without_bootloader.ld)
 set(GCC_ARM_LINKER_OPTIONS "-L${CMAKE_CURRENT_LIST_DIR}/ports/atmel-samd21/CMSIS/Lib -larm_cortexM0l_math")

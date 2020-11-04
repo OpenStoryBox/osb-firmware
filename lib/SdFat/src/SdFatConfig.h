@@ -75,7 +75,9 @@
 #define SDFAT_FILE_TYPE 1
 #else  // defined(__AVR__) && FLASHEND < 0X8000
 // All other boards.
+#ifndef SDFAT_FILE_TYPE
 #define SDFAT_FILE_TYPE 1
+#endif
 #endif  // defined(__AVR__) && FLASHEND < 0X8000
 //------------------------------------------------------------------------------
 /**

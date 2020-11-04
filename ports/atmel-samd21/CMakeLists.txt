@@ -6,6 +6,7 @@ set(ARDUINO_INCLUDES
     ${CMAKE_CURRENT_LIST_DIR}/ArduinoCore-samd/cores/arduino
     ${CMAKE_CURRENT_LIST_DIR}/ArduinoCore-samd/cores/arduino/USB
     ${CMAKE_CURRENT_LIST_DIR}/ArduinoCore-samd/libraries/SPI
+    ${CMAKE_CURRENT_LIST_DIR}/ArduinoCore-samd/libraries/I2S/src
     ${CMAKE_CURRENT_LIST_DIR}/CMSIS/Include
 )
 
@@ -47,6 +48,9 @@ list(TRANSFORM ARDUINO_SOURCES_USB PREPEND ${CMAKE_CURRENT_LIST_DIR}/ArduinoCore
 
 set(ARDUINO_SOURCES_LIBS
     SPI/SPI.cpp
+    I2S/src/I2S.cpp
+    I2S/src/utility/DMA.cpp
+    I2S/src/utility/I2SDoubleBuffer.cpp
 )
 list(TRANSFORM ARDUINO_SOURCES_LIBS PREPEND ${CMAKE_CURRENT_LIST_DIR}/ArduinoCore-samd/libraries/)
 
